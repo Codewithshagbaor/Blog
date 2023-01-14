@@ -1,0 +1,22 @@
+{% extends 'base.html'%}
+{% block title %}
+<title>SignUp - Account </title>
+{% endblock title %}
+{% block content %}
+  <!-- Add a container for the login form -->
+  <div class="login-form">
+    <form form method="POST" action="">
+      {% csrf_token %}
+      <label for="username">Username:</label>
+      <input type="text" name="username" placeholder="Username">
+      <label for="email">Email:</label>
+      <input type="text" name="email" placeholder="Email">
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="" placeholder="********">
+      <label for="password">Password:</label>
+      <input type="password"  name="password2" placeholder="Comfirm Password">
+      <button type="submit">Create an Account</button>
+      <p style="text-align: center;">Have an account? <a href="{% url 'login-view' %}" style="text-decoration: none;">Login</a></p>
+    </form>
+  </div>
+{% endblock %}

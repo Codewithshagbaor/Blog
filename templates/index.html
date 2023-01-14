@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+{% if posts %}
+<div class="image-grid">
+  {% for post in posts reversed %}
+  <div class="image-container">
+    <img src="{{ post.image.url }}" alt="{{ post.title }}">
+    <div class="caption">
+      <a href="{% url 'view_user' post.user.username %}" style="text-decoration: none; color: white; "><span class="username">{{ post.user.username }}</span></a> {{ post.title }}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div>No Post to display</div>
+{% endif %}
+{% endblock %}

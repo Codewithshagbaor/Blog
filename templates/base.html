@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+  
+  {% block title %}
+<title>SnapShots - Capturing life's moments, one picture at a time</title>
+  {% endblock title %}
+  <link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+  <!-- Add a menu bar with a login and upload button -->
+  <div class="menu">
+    {% if request.user.is_authenticated %}
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'create_post' %}">Upload</a>
+    <a href="{% url 'logout-view' %}">Logout({{request.user}})</a>
+    {% else %}
+    <a href="{% url 'index' %}">Home</a>
+    <a href="{% url 'create_post' %}">Login</a>
+    <a href="{% url 'create_post' %}">Upload</a>
+    {% endif %}
+  </div>
+  <!-- Add an image grid -->
+  {% if messages %}
+  <!-- Display the alert box at the bottom of the page, but off the screen -->
+  <div class="alert-box" style="position: fixed; bottom: -100%; right: 10px; background-color: #333; color: white; padding: 20px; border-radius: 5px; transition: bottom 0.5s;">
+    <!-- Iterate through the messages and display each one in the alert box -->
+    {% for message in messages %}
+      <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+    <!-- Add a progress bar to the alert box -->
+    <div class="progress">
+      <div class="progress-bar" style="width: 100%;"></div>
+    </div>
+  </div>
+  <!-- Use JavaScript to slide the alert box up from the bottom of the page and close it after a certain amount of time -->
+  <script>
+    // Get the alert box element
+    var alertBox = document.querySelector('.alert-box');
+    // Get the progress bar element
+    var progressBar = document.querySelector('.progress-bar');
+    // Set the width of the progress bar to 0
+    progressBar.style.width = '0%';
+    // Update the width of the progress bar every 10 milliseconds
+    var interval = setInterval(function() {
+      var width = progressBar.style.width;
+      // Stop updating the width of the progress bar when it reaches 0
+      if (width === '0%') {
+        clearInterval(interval);
+      } else {
+        progressBar.style.width = (parseInt(width) - 1) + '%';
+      }
+    }, 10);
+    // Slide the alert box up from the bottom of the page
+    alertBox.style.bottom = '10px';
+    // Close the alert box after 5 seconds
+    window.setTimeout(function() {
+      alertBox.style.bottom = '-100%';
+    }, 5000);
+  </script>
+{% endif %}
+
+  {% block content %}
+
+  {% endblock %}
+<!-- Add a floating icon for your GitHub profile -->
+<a href="https://github.com/Codewithshagbaor" target="_blank" class="github-icon">
+  <img src="https://avatars.githubusercontent.com/u/67190277?v=4" alt="GitHub Icon">
+</a>
+</body>
+</html>

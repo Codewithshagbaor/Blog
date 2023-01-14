@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}
+  <title>SnapShots - {{ user.username }}'s Profile</title>
+{% endblock title %}
+{% block content %}
+  <div class="user-info">
+    <img src="{{ user.profile_img.url }}" alt="Profile image">
+    <div class="username">{{ user.username }}</div>
+    <span class="bio">{{user.bio}}</span>
+    {% if not user.is_following %}
+      <button class="follow-button" onclick="followUser()">Follow</button>
+    {% else %}
+      <button class="follow-button" onclick="unfollowUser()">Unfollow</button>
+    {% endif %}
+    <div class="followers">{{ user.followers }} followers</div>
+  </div>
+  <!-- Add an image grid -->
+  {% if user_post %}
+  <div class="image-grid">
+    {% for image in user_post reversed %}
+    <div class="image-container">
+      <img src="{{ image.image.url }}" alt="{{ image.title }}">
+      <div class="caption">
+        <a href="{% url 'view_user' image.user.username %}" style="text-decoration: none; color: white; "><span class="username">{{ image.user.username }}</span></a> {{ image.title }}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div>No Post to display</div>
+  {% endif %}
+
+ {% endblock content %}
