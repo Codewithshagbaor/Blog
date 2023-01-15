@@ -1,142 +1,102 @@
+{% extends 'base.html' %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Upload - SnapShots</title>
-  <!-- Reuse the CSS code from the homepage, full image view page, and login page -->
-  <style>
-    /* Add some styling for the body and menu bar */
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: sans-serif;
-      background-color: #eee;
-    }
-    .menu {
-      background-color: #333;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px;
-      color: white;
-      font-size: 20px;
-    }
-    .menu a {
-      color: white;
-      text-decoration: none;
-      font-size: 16px;
-      margin: 0 10px;
-    }
-    .menu a:hover {
-      text-decoration: underline;
-    }
-    /* Add some styling for the post form */
-    .post-form {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 90vh;
-    }
-    .post-form form {
-      width: 400px;
-      margin: 20px;
-      padding: 20px;
-      background-color: white;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-    }
-    .post-form form label,
-    .post-form form input,
-    .post-form form button {
-      display: block;
-      width: 100%;
-      margin: 10px 0;
-      box-sizing: border-box;
-      font-size: 16px;
-    }
-    .post-form form input[type="text"],
-    .post-form form input[type="file"] {
-      border: 1px solid #ccc;
-      border-radius: 5px;
-      padding: 10px;
-    }
-    .post-form form button {
-      background-color: #333;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .post-form form button:hover {
-      background-color: #555;
-    }
-        /* Add some styling for the floating icon */
-    .github-icon {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background-color: #333;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      transition: all 0.2s ease-in-out;
-    }
-    .github-icon:hover {
-      transform: scale(1.1);
-      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-    }
-    .github-icon img {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-    }
-  </style>
-<body>
-  <!-- Add a menu bar with a login and upload button -->
-  <div class="menu">
-    {% if request.user.is_authenticated %}
-    <a href="{% url 'index' %}">Home</a>
-    <a href="{% url 'create_post' %}">Upload</a>
-    <a href="{% url 'logout-view' %}">Logout({{request.user}})</a>
-    {% else %}
-    <a href="{% url 'index' %}">Home</a>
-    <a href="{% url 'create_post' %}">Login</a>
-    <a href="{% url 'create_post' %}">Upload</a>
-    {% endif %}
-  </div>
+{% block title %}
+<title>Create Post</title>
+<link href="{% static 'plugins.bundle.css' %}" rel="stylesheet" type="text/css"/>
+{% endblock %}
+
+{% block content %}
+<style>
+  /* Add some styling for the post form */
+        .post-form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          
+          max-height: 90%;
+        }
+        .post-form form {
+          width: 700px;
+          margin: 20px;
+          padding: 20px;
+          background-color: white;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        .post-form form label,
+        .post-form form input,
+        .post-form form button,
+        .post-form textarea,
+        .post-form select {
+          display: block;
+          width: 100%;
+          margin: 10px 0;
+          box-sizing: border-box;
+          font-size: 16px;
+        }
+        .post-form form input[type="text"],
+        .post-form form input[type="file"],
+        .post-form select {
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          padding: 10px;
+        }
+        .post-form form button {
+          background-color: #333;
+          color: white;
+          border: none;
+          border-radius: 5px;
+          padding: 10px;
+          cursor: pointer;
+        }
+        .post-form form button:hover {
+          background-color: #555;
+        }
+        .post-form textarea {
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          padding: 10px;
+        }
+</style>
   <!-- Add a container for the post form -->
   <div class="post-form">
     <form method="POST" enctype="multipart/form-data">
       {% csrf_token %}
-      <label for="caption">Caption:</label>
-      <input type="text" name="caption" placeholder="Caption">
-      <label for="image">Image:</label>
-      <input type="file" name="img">
-      <textarea name="kt_docs_ckeditor_classic" id="kt_docs_ckeditor_classic">Type Here</textarea>
-      <button type="submit">Upload</button>
+      <label for="caption">Title:</label>
+      <input type="text" name="title" placeholder="How to start a Blog">
+      <select name="category">
+        {% for cat in category %}
+        <option>{{cat.name}}</option>
+        {% endfor %}
+      </select>
+      <label for="image">Featured Imaged:</label>
+      <input type="file" name="image">
+      <div id="kt_docs_quill_basic" name="kt_docs_quill_basic">
+      <textarea name="body" id="body">type here</textarea>
+    </div>
+      <button type="submit">Create Post</button>
     </form>
   </div>
   <!-- Add a floating icon for your GitHub profile -->
 <a href="https://github.com/Codewithshagbaor" target="_blank" class="github-icon">
   <img src="https://avatars.githubusercontent.com/u/67190277?v=4" alt="GitHub Icon">
 </a>
-<script src="{% static 'ckeditor-classic.bundle.js' %}"></script>
+<script src="{% static 'plugins.bundle.js' %}"></script>
 <script>
-  ClassicEditor
-    .create(document.querySelector('#kt_docs_ckeditor_classic'))
-    .then(editor => {
-        console.log(editor);
-    })
-    .catch(error => {
-        console.error(error);
+    var quill = new Quill('#kt_docs_quill_basic', {
+        modules: {
+            toolbar: [
+                [{
+                    header: [1, 2, false]
+                }],
+                ['bold', 'italic', 'underline'],
+                ['image', 'code-block']
+            ]
+        },
+        placeholder: 'Type your text here...',
+        theme: 'snow' // or 'bubble'
     });
 </script>
-</body>
-</html>
+{% endblock content %}
