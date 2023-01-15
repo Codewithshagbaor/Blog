@@ -1,0 +1,8 @@
+<div class="full-image-view" style="text-align: center;">
+  <img src="{{post.image.url}}" style="width: 150px;" alt="image">
+  <div class="caption">
+    <span class="username">{{post.user.username}}</span><br>
+    {{post.title}}
+    <p>{{post.body | safe}}</p>
+  </div>
+</div>
