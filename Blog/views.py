@@ -23,17 +23,23 @@ def logoutView(request):
 def createPost(request):
   if request.user.is_complete == False:
     return redirect('complete_reg')
-
+  category = Category.objects.all()
+  
   if request.method == 'POST':
     Post.objects.create(
       user = request.user,
-      uid = str(uuid.uuid4())[:20],
-      image = request.FILES['img'],
-      caption = request.POST.get('caption')
+      image = request.FILES['image'],
+      title = request.POST.get('title'),
+      body = request.POST.get('body'),
+      category = get_object_or_404(Category, name=request.POST.get('category'))
     )
     messages.info(request, 'Post Created Successfully')
     return redirect('index')
-  return render(request, 'create_post.html')
+
+  context = {
+    'category':category
+  }
+  return render(request, 'create_post.html', context)
 
 def View_Post(request, slug):
   post = get_object_or_404(Post, slug=slug)
