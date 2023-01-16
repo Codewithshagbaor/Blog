@@ -31,3 +31,13 @@ Copy code
 python manage.py runserver
 # Built With
 Django - The web framework used
+
+# Contributions
+If you want to contribute to this project, please follow these guidelines:
+
+Create a new branch for your changes: git checkout -b NEW-BRANCH-NAME
+Make your changes and commit them: git commit -am 'Add some changes'
+Push your changes to your branch: git push origin NEW-BRANCH-NAME
+Create a pull request to merge your changes into the master branch
+# License
+This project is licensed under the MIT License. See the LICENSE file for more details.
