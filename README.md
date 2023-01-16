@@ -10,7 +10,7 @@ Django 2.x
 virtualenv (optional)
 Installing
 Clone the repository
-git clone https://github.com/[username]/django-blog.git
+git clone https://github.com/Codewithshagbaor/Blog.git
 Create a virtual environment (optional)
 Copy code
 python -m venv env
